@@ -7,7 +7,7 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-	string help = "This program only supports one parameter, the time to sleep in seconds as an `unsigned long long`!";
+	string help = "This program only supports one parameter, the time to sleep in seconds as an positive `long long`!";
 	if (argc != 2) {
 		cout << "This program only takes one argument!" << endl;
 		cout << help << endl;
@@ -16,17 +16,22 @@ int main(int argc, char *argv[])
 
 	try {
 		size_t parsedChars = 0;
-		unsigned long long sleep_seconds = stoull(argv[1], &parsedChars);
+		long long sleep_seconds = stol(argv[1], &parsedChars);
 		if (strlen(argv[1]) != parsedChars) {
-			cout << "Not a propper unsigned long long as time in seconds to wait!" << endl;
-			cout << help << endl;
+			cout << "Not a propper `long long` as time in seconds to wait! Maybe you added some characters after a proper `long long`?" << endl;			
 			return 1;
 		}
-		cout << "Sleeping for: " << sleep_seconds << " seconds!" << endl;
-		// sleep here ?
-		typedef std::chrono::duration<int> seconds_type;
-		seconds_type sleep_duration(sleep_seconds);
-		this_thread::sleep_for(sleep_duration);
+		if(sleep_seconds < 0) {
+			cout << "Not a propper positive `long long` as time in seconds to wait!" << endl;			
+			return 1;
+		}
+				
+		typedef std::chrono::duration<long long> seconds_type;		
+		seconds_type sleep_duration(sleep_seconds);		
+		this_thread::sleep_for(sleep_duration);		
+
+		
+		
 	}
 	catch (invalid_argument ia_err) {
 		cout << "The given argument is not in a valid form!" << endl;
