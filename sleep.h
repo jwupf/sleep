@@ -6,5 +6,6 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
+#include <cstring>
 
 // TODO: Reference additional headers your program requires here.
